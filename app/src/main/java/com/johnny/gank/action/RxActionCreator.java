@@ -13,6 +13,8 @@ import rx.Subscription;
  * 创建的Create和SubscriptionManager放置到一起了
  */
 
+
+
 /**
  * API:
  * 在Flux架构中，ActionCreator虽然和Flux数据流关系不大，但对于App来说，实际上是非常重要的一部分。
