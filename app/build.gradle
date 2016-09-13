@@ -1,0 +1,115 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+def keyStore = file('gank.jks')
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+android {
+
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+
+    defaultConfig {
+        applicationId rootProject.ext.androidApplicationId
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode rootProject.ext.androidVersionCode
+        versionName rootProject.ext.androidVersionName
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'MissingTranslation'
+    }
+
+    signingConfigs {
+        release {
+            storeFile keyStore
+            storePassword 'gank666'
+            keyAlias 'Gank'
+            keyPassword '94a186'
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if(keyStore.exists()) {
+                println "using johnnyshieh's key"
+                signingConfig signingConfigs.release
+            }
+            applicationVariants.all { variant ->
+                if (variant.buildType.name.equals('release')) {
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            def fileName = "Gank_v${defaultConfig.versionName}_${releaseTime()}_${variant.flavorName}.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
+                    }
+                }
+            }
+
+            productFlavors.all { flavor ->
+                manifestPlaceholders.put("UMENG_CHANNEL_VALUE",name)
+            }
+        }
+
+        productFlavors {
+            fir {
+            }
+        }
+    }
+}
+
+def dependency = rootProject.ext.dependencies
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    apt dependency['daggerCompiler']
+    testCompile dependency['junit']
+    compile(name:'feedbacksdk', ext:'aar')
+    compile dependency['appcompat']
+    compile dependency['design']
+    compile dependency['recyclerView']
+    compile dependency['cardView']
+    // 添加Dagger2 的第一步
+    compile dependency['dagger']
+    compile dependency['butterKnife']
+    compile dependency['rxJava']
+    compile dependency['rxAndroid']
+    compile dependency['retrofit']
+    compile dependency['converterGson']
+    compile dependency['adapterRxjava']
+    compile dependency['gson']
+    compile dependency['glide']
+    compile dependency['umengAnalytics']
+    compile dependency['timber']
+    compile dependency['logger']
+    debugCompile dependency['leakcanary']
+    releaseCompile dependency['leakcanaryNoOp']
+    // 添加drgger2 的第二步 因为Java 6 版本上才有@Generated ，Android中是不存在的所以添加
+    provided dependency['javaxAnnotation']
+}
