@@ -13,8 +13,6 @@ import rx.Subscription;
  * 创建的Create和SubscriptionManager放置到一起了
  */
 
-
-
 /**
  * API:
  * 在Flux架构中，ActionCreator虽然和Flux数据流关系不大，但对于App来说，实际上是非常重要的一部分。
@@ -35,6 +33,8 @@ import rx.Subscription;
  * 这段话主要是说一般网络写操作在ActionCreator中来做，网络读操作在Store中来做。
  * 理由是，ActionCreator在做网络请求时的职责，1). 规范化Action的创建 2). 协调乐观的网络操作，处理请求成功或者失败的情况的
  * 。但是在网络读操作的时候不需要这些操作，所以也不需要放在ActionCreator中完成。
+ * 其实就是根据当前情况开通博客什么的
+ * http://write.blog.csdn.net/postedit?ref=toolbar&ticket=ST-393465-buwc1tVuw1RwNHnbJEN4-passport.csdn.net
  */
 public abstract class RxActionCreator {
 
