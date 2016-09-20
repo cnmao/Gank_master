@@ -38,6 +38,7 @@ public class RxFlux implements Application.ActivityLifecycleCallbacks {
 
   public static RxFlux init(Application application) {
     if (instance != null) throw new IllegalStateException("Init was already called");
+
     return instance = new RxFlux(application);
   }
 
