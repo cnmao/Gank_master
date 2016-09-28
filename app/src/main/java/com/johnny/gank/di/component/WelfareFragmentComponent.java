@@ -16,13 +16,10 @@ package com.johnny.gank.di.component;
  */
 
 import com.johnny.gank.di.PerFragment;
-import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.di.module.AppModule;
 import com.johnny.gank.ui.fragment.WelfareFragment;
 
 import android.app.Activity;
 
-import dagger.Component;
 import dagger.Subcomponent;
 
 /**

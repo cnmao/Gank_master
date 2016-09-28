@@ -36,6 +36,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * 从Application拿过来的注入组件对象
+     * @return
+     */
     public AppComponent getAppComponent() {
         return ((GankApplication)getApplication()).getAppComponent();
     }
