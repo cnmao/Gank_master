@@ -24,7 +24,7 @@ import dagger.Provides;
 
 /**
  * description
- *
+ * 创建一个Module对象
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
