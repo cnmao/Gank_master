@@ -73,7 +73,7 @@ public class AndroidFragment extends CategoryGankFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        View contentView = createView(inflater, container); // 几个页面都有相同的界面，那就写个方法放在父类中呗
+        View contentView = createView(inflater, container);
         mAdapter.setOnItemClickListener(new CategoryGankAdapter.OnItemClickListener() {
             @Override
             public void onClickNormalItem(View view, GankNormalItem normalItem) {
@@ -82,7 +82,7 @@ public class AndroidFragment extends CategoryGankFragment {
         });
 
         initInjector();
-        mDispatcher.subscribeRxStore(mStore);   // mStore = AndroidStore
+        mDispatcher.subscribeRxStore(mStore);
         mDispatcher.subscribeRxView(this);
         return contentView;
     }
@@ -101,40 +101,17 @@ public class AndroidFragment extends CategoryGankFragment {
 
     @Override
     protected void loadMore() {
-        /**
-         * 在Flux中，要始终注意数据是单向流动的，所以要抵制住这种诱惑。
-         * Flux的处理方式是在数据开始加载的时候，发送Action给Store，让Store来处理当前的UI状态，
-         * 比如显示一个“正在加载…”的对话框。在网络请求成功/失败之后，再发送新的Action给Store处理请求结果。
-         * （额外的好处是，避免了常见的由于回调接口造成的内存泄漏问题）
-         */
-        /**
-         * 本来是在ActionCreator中进行请求网络的时候需要 加载中。。。。 提示。 不过提前到了Control——view中了！
-         */
         vLoadMore.setStatus(LoadMoreView.STATUS_LOADING);
-        /**
-         * 按钮被点击触发回调方法，在回调方法中调用ActionCreator提供的有语义的的方法
-         */
         mActionCreator.getAndroidList(mAdapter.getCurPage() + 1);
     }
 
-    /**
-     * 下边两个方法都是RxViewDispatcher接口的回调
-     * 在subscribeView的时候进行绑定的。
-     * @param change
-     */
     @Override
     public void onRxStoreChanged(@NonNull RxStoreChange change) {
         switch (change.getStoreId()) {
             case AndroidStore.ID:
-                /**
-                 * 所有订阅了这个Action的Store会接收到订阅的Action并消化Action
-                 */
                 if(1 == mStore.getPage()) {
                     vRefreshLayout.setRefreshing(false);
                 }
-                /**
-                 * 更新UI的过程中会从Store获取所有需要的数据
-                 */
                 mAdapter.updateData(mStore.getPage(), mStore.getGankList());
                 mLoadingMore = false;
                 vLoadMore.setStatus(LoadMoreView.STATUS_INIT);

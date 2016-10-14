@@ -29,7 +29,7 @@ import java.io.File;
  */
 public class AppUtil {
 
-    private static Context mAppContext; //
+    private static Context mAppContext;
 
     /**
      * The method should be call when app create.

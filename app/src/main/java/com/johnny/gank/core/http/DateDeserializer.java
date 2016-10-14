@@ -37,7 +37,6 @@ public class DateDeserializer implements JsonDeserializer {
 
     private List<SimpleDateFormat> mDateFormatList;
 
-    //定义需要转换成的格式
     public DateDeserializer(String... patterns) {
         mDateFormatList = new ArrayList<>(patterns.length);
         for(String pattern : patterns) {
@@ -45,7 +44,6 @@ public class DateDeserializer implements JsonDeserializer {
         }
     }
 
-    //继承父类 直接可
     @Override
     public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
         throws JsonParseException {

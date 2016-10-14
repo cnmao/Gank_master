@@ -30,9 +30,6 @@ import javax.inject.Inject;
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
- *
- * 在一个Flux应用中，Stores和Views都是自控制的，他们不会响应外部的对象。
- * Actions通过Stores注册在Dispatcher中的回调接口获取，而不是通过set方法。
  */
 public class AndroidStore extends RxStore {
 
@@ -49,30 +46,16 @@ public class AndroidStore extends RxStore {
     @Override
     public void onRxAction(RxAction action) {
         switch (action.getType()) {
-            /**
-             *  当有新的Action进来的时候，它会负责处理Action，
-             */
             case ActionType.GET_ANDROID_LIST:
                 mPage = action.get(Key.PAGE);
-                /**
-                 * 并转化成UI需要的数据。
-                 */
                 mGankList = action.get(Key.GANK_LIST);
                 break;
             default:
                 return;
         }
-        /**
-         * Store对外仅仅提供get方法，它的更新通过Dispatcher派发的Action来更新，
-         */
         postChange(new RxStoreChange(ID, action));
     }
 
-    /**
-     * Store的设计是很精巧的（比较类似PresentationModel模式），
-     * 每一个Store仅仅负责一片逻辑相关的UI区域，用来维护这片UI的状态
-     * @return
-     */
     public int getPage() {
         return mPage;
     }

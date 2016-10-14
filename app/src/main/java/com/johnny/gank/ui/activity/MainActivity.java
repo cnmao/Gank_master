@@ -46,7 +46,7 @@ import java.util.HashMap;
 public class MainActivity extends BaseActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-    private MainActivityComponent mComponent; // 这个接口对象中有6个  同样以组件命名结尾的接口对象
+    private MainActivityComponent mComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,6 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        // 左边的
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG);
@@ -95,7 +94,6 @@ public class MainActivity extends BaseActivity
         MobclickAgent.onPause(this);
     }
 
-    // 处理后退键
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -106,7 +104,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    // menu中是一个Serach 矢量图 具体参看 ：http://mobile.51cto.com/news-478709.htm
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -130,7 +127,6 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    // 回调的方法，用户点击左边选择后出现的Fragment页面
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -145,15 +141,12 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.nav_welfare:
-
                 if(null == getFragmentManager().findFragmentByTag(WelfareFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, WelfareFragment.newInstance(), WelfareFragment.TAG);
                     setTitle(R.string.nav_welfare);
                 }
                 break;
             case R.id.nav_android:
-                // 如果当前FragmentManager没有此AndroidFragment的标签
-                // Api: @return The fragment if found or null otherwise.
                 if(null == getFragmentManager().findFragmentByTag(AndroidFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, AndroidFragment.newInstance(), AndroidFragment.TAG);
                     setTitle(R.string.nav_android);
@@ -187,7 +180,6 @@ public class MainActivity extends BaseActivity
                 break;
         }
 
-        //选择后进行关闭掉左边的抽屉
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

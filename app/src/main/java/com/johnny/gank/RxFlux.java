@@ -31,14 +31,12 @@ public class RxFlux implements Application.ActivityLifecycleCallbacks {
     this.rxBus = RxBus.getInstance();
     this.dispatcher = Dispatcher.getInstance(rxBus);
     this.subscriptionManager = SubscriptionManager.getInstance();
-    //计数当前所管理或者是拿有的activity对象。 通过计数，保持这个管理者对象可以释放掉内存，从而可以更好的进行运行。
     activityCounter = 0;
     application.registerActivityLifecycleCallbacks(this);
   }
 
   public static RxFlux init(Application application) {
     if (instance != null) throw new IllegalStateException("Init was already called");
-
     return instance = new RxFlux(application);
   }
 

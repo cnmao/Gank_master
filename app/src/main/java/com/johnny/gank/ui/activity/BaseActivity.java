@@ -36,16 +36,11 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    /**
-     * 从Application拿过来的注入组件对象
-     * @return
-     */
     public AppComponent getAppComponent() {
         return ((GankApplication)getApplication()).getAppComponent();
     }
 
     public void replaceFragment(int containerViewId, Fragment fragment, String tag) {
-        //前边已经判断过了 在MainActivity中 不是多此一举吗？
         if(null == getFragmentManager().findFragmentByTag(tag)) {
             getFragmentManager().beginTransaction()
                 .replace(containerViewId, fragment, tag)

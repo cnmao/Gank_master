@@ -38,7 +38,6 @@ import butterknife.ButterKnife;
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
- *
  */
 public abstract class CategoryGankFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
 

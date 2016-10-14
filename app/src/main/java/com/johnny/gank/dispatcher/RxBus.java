@@ -24,10 +24,6 @@ public class RxBus {
     return instance;
   }
 
-  /**
-   * 所有订阅了这个Action的Store会接收到订阅的Action并消化Action
-   * @param o
-     */
   public void send(Object o) {
     bus.onNext(o);
   }
@@ -40,21 +36,3 @@ public class RxBus {
     return bus.hasObservers();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

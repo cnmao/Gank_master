@@ -40,15 +40,10 @@ public class GankApplication extends Application{
     public void onCreate() {
         super.onCreate();
 
-        // 友盟统计
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.enableEncrypt(true);
-        // 阿里百川 web网页形式进行反馈信息汇总
         FeedbackAPI.initAnnoy(this, getString(R.string.ali_app_key));
-        // AppUtil 初始化了一个Context对象
         AppUtil.init(this);
-        // 日志工具 Simple, pretty and powerful logger for android
-        // https://github.com/orhanobut/logger
         Logger.initialize(
             new Settings()
                 .isShowMethodLink(true)
@@ -56,15 +51,13 @@ public class GankApplication extends Application{
                 .setMethodOffset(0)
                 .setLogPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
         );
-        // 初始化依赖注入组件
         initInjector();
-        //内存监视对象
         LeakCanary.install(this);
     }
 
     private void initInjector() {
-        mAppComponent = DaggerAppComponent.builder() // 内部类 返回当前内部类Builder对象
-            .appModule(new AppModule(this)) // 获取AppModule  传入AppModule对象，检测然后返回 从而获取到AppMpdule
+        mAppComponent = DaggerAppComponent.builder()
+            .appModule(new AppModule(this))
             .build();
     }
 

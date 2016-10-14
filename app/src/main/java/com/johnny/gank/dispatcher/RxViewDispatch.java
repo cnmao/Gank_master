@@ -16,14 +16,12 @@ import android.support.annotation.NonNull;
 public interface RxViewDispatch {
 
   /**
-   * 当刷新动作出现时。Store变化
    * All the stores will call this event after they process an action and the store change it.
    * The view can react and request the needed data
    */
   void onRxStoreChanged(@NonNull RxStoreChange change);
 
   /**
-   * 刷新失败等
    * Called when an error occur in some point of the flux flow.
    *
    * @param error {@link RxError} containing the information for that specific error

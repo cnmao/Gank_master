@@ -43,29 +43,4 @@ public class AndroidActionCreator extends CategoryGankActionCreator {
     public void getAndroidList(final int page) {
         getGankList(GankType.ANDROID, page);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

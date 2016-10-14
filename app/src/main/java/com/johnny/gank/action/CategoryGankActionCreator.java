@@ -50,23 +50,10 @@ abstract class CategoryGankActionCreator extends RxActionCreator{
         return DEFAULT_PAGE_COUNT;
     }
 
-    /**
-     * 如图所示，在FluxApp中，网络操作是在ActionCreator部分执行的。
-     * 之所以这样是因为，Flux的整体架构是一个单向数据流，
-     * 数据从Action开始最终经过Dispatcher、Store流向View，
-     * 在这个过程中ActionCreator属于数据的预处理和准备阶段。
-     * 所以像网络请求、文件处理、数据预处理等等都应该在这里完成，
-     * 最后产出一个结果通过Action启动整个数据流。
-     * @param category
-     * @param page
-     */
     protected void getGankList(final String category, final int page) {
-        /**
-         * ActionCreator会根据传入参数创建Action并通过Dispatcher发送给Store
-         */
-        final RxAction rxAction = newRxAction(getActionId()); // 根据不同的子类ID 进行构建不同的Action ， 然后调用父顶类的 magger对象
+        final RxAction rxAction = newRxAction(getActionId());
         if(hasRxAction(rxAction)) {
-            return; // 最后产出一个结果通过Action启动整个数据流。
+            return;
         }
 
         addRxAction(rxAction, GankService.Factory.getGankService()
@@ -85,13 +72,8 @@ abstract class CategoryGankActionCreator extends RxActionCreator{
             .subscribe(new Action1<List<GankNormalItem>>() {
                 @Override
                 public void call(List<GankNormalItem> gankNormalItems) {
-                    rxAction.getData().put(Key.GANK_LIST, gankNormalItems); //无论是用户与应用交互还是网络API的响应，
-                    // 当新的数据输入系统的时候， 这个数据被包装到 Action — 一个包含了数据和Action类型的对象。
-                    // 我们经常会创建一个类(ActionCreator)包含各种帮助方法，这些方法不仅创建Action，并且把Action传递给Dispatcher。
+                    rxAction.getData().put(Key.GANK_LIST, gankNormalItems);
                     rxAction.getData().put(Key.PAGE, page);
-                    /**
-                     * 最后产出一个结果通过Action启动整个数据流。
-                     */
                     postRxAction(rxAction);
                 }
             }, new Action1<Throwable>() {

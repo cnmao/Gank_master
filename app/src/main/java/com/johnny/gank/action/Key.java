@@ -27,5 +27,4 @@ public interface Key {
     String GANK_LIST = "gank_list";
     String DAY_GANK = "day_gank";
     String QUERY_RESULT = "query_result";
-
 }
